@@ -96,12 +96,24 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     public void viewAllAppointments() {
-        if (appointments.get(1) == null) {
-            System.out.println("Appointments is empty!");
+        if (appointments.isEmpty()) {
+            System.out.println("Appointments are empty!");
             return;
         }
 
-        for (Appointment appointment : appointments.values()) {
+        List<Appointment> appointmentList = new ArrayList<>(appointments.values());
+
+        for (int i = 0; i < appointmentList.size() - 1; i++) {
+            for (int j = 0; j < appointmentList.size() - i - 1; j++) {
+                if (appointmentList.get(j).getDateTime().isAfter(appointmentList.get(j + 1).getDateTime())) {
+                    Appointment temp = appointmentList.get(j);
+                    appointmentList.set(j, appointmentList.get(j + 1));
+                    appointmentList.set(j + 1, temp);
+                }
+            }
+        }
+
+        for (Appointment appointment : appointmentList) {
             displayAppointment(appointment);
         }
     }

@@ -17,11 +17,10 @@ public class TreatmentServiceImpl implements TreatmentService {
     public Treatment getTreatmentByType(String treatmentType) {
         try {
             Treatment treatment = treatments.get(treatmentType);
-            if (treatment.getTreatmentType() != null) {
-                return treatment;
-            } else {
+            if (treatment == null) {
                 throw new IllegalArgumentException("Treatment type not found: " + treatmentType);
             }
+            return treatment;
         } catch (Exception e) {
             System.out.println(e);
             return null;
